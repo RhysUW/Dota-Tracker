@@ -1,20 +1,24 @@
-using Dota_Tracker.API;
+﻿using Avalonia;
+using System;
 
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+namespace Dota_Tracker;
 
-app.MapGet("/test", async () =>
+sealed class Program
 {
-    ulong testAccID = 76561198070196960;
-    uint dotaAccID = DataMethods.SteamId64ToAccountID(76561198070196960);
+    // Initialization code. Don't use any Avalonia, third-party APIs or any
+    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
+    // yet and stuff might break.
+    [STAThread]
+    public static void Main(string[] args) => BuildAvaloniaApp()
+        .StartWithClassicDesktopLifetime(args);
 
-    var player = await DataMethods.GetPlayerSummaryAsync(testAccID);
-
-    var matches = await DataMethods.GetPrevious20Matches(dotaAccID);
-    
-    return matches;
-});
-
-app.MapGet("/", () => "Hello World!");
-
-app.Run();
+    // Avalonia configuration, don't remove; also used by visual designer.
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+#if DEBUG
+            .WithDeveloperTools()
+#endif
+            .WithInterFont()
+            .LogToTrace();
+}
