@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Dota_Tracker.ViewModels"
+        x:Class="Dota_Tracker.Views.LoginWindow"
+        x:DataType="vm:LoginViewModel"
+        Title="Dota Tracker - Login"
+        Width="360" Height="600"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        Background="#454761">
+
+<StackPanel Margin="24" Spacing="12" VerticalAlignment="Center">
+    <TextBlock FontSize="16" 
+                HorizontalAlignment="Center" >
+            Redirect to Steam Login</TextBlock>
+    <Button Command="{Binding LoginCommand}"
+            HorizontalAlignment="Center">
+        Login</Button>
+</StackPanel>
+
+</Window>

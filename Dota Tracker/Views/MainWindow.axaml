@@ -7,7 +7,9 @@
         x:Class="Dota_Tracker.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Dota_Tracker">
+        Title="Dota_Tracker"
+
+        Background="#2C2C3F">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -15,8 +17,26 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
+    <!-- to change colours of font paste:
+      Foreground="{StaticResource PrimaryTextBrush}"
+       -->
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="White"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#1e1e1e" Padding="12">
+            <TextBlock Foreground="{StaticResource PrimaryTextBrush}">Dota Tracker</TextBlock>
+        </Border>
+
+        <Grid ColumnDefinitions="*,4" Margin="12">
+            <StackPanel Grid.Column="0" Spacing="8" Margin="0,0,12,0">
+                <TextBox PlaceholderText="SteamID"></TextBox>
+                <Button HorizontalAlignment="Stretch">Look up</Button>
+            </StackPanel>
+
+            <ListBox Grid.Column="1"></ListBox>
+        </Grid>
+    </DockPanel>
 
 </Window>
