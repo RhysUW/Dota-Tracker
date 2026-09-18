@@ -22,12 +22,11 @@ public partial class App : Application
 
             LoginViewModel.LoginSucceeded += player =>
             {
-              var mainWindow = new MainWindow { DataContext = new MainViewModel() };  
+              var mainWindow = new MainWindow { DataContext = new MainViewModel(player) };  
               desktop.MainWindow = mainWindow;
               mainWindow.Show();
               LoginWindow.Close();
 
-              var test = player;
             };
 
             desktop.MainWindow = LoginWindow;
