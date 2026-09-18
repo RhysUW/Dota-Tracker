@@ -20,12 +20,14 @@ public partial class App : Application
             var LoginViewModel= new LoginViewModel();
             var LoginWindow = new LoginWindow {DataContext = LoginViewModel};
 
-            LoginViewModel.LoginSucceeded += () =>
+            LoginViewModel.LoginSucceeded += player =>
             {
               var mainWindow = new MainWindow { DataContext = new MainViewModel() };  
               desktop.MainWindow = mainWindow;
               mainWindow.Show();
               LoginWindow.Close();
+
+              var test = player;
             };
 
             desktop.MainWindow = LoginWindow;

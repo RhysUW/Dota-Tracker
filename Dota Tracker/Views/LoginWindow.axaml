@@ -13,9 +13,17 @@
     <TextBlock FontSize="16" 
                 HorizontalAlignment="Center" >
             Redirect to Steam Login</TextBlock>
+
     <Button Command="{Binding LoginCommand}"
             HorizontalAlignment="Center">
         Login</Button>
+
+    <ProgressBar IsIndeterminate="True"
+                    IsVisible="{Binding IsLoggingIn}"
+                    Height="4"></ProgressBar>
+
+    <TextBlock Foreground="Red"
+               TextWrapping="Wrap"></TextBlock>
 </StackPanel>
 
 </Window>
