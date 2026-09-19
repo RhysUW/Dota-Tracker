@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Dota_Tracker.Models;
 using Dota_Tracker.Services;
+using System.Linq;
 
 namespace Dota_Tracker.ViewModels;
 
@@ -34,6 +35,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public partial List<MatchInfo>? prev20Matches { get; set;}
 
+    [ObservableProperty]
+    public partial List<Heros>? Heros {get; set;}
+
     public MainViewModel(PlayerSummary currentPlayer)
     {
         CurrentPlayer = currentPlayer;
@@ -42,6 +46,7 @@ public partial class MainViewModel : ViewModelBase
         ulong.TryParse(currentPlayer.SteamId, out AccNum);
 
         //loading data relevant to the logged in player
+        _ = LoadHeros();
         _ = LoadAvatarAsync(currentPlayer.AvatarFull);
         _ = LoadPrev20Matches(AccNum);
 
@@ -80,8 +85,20 @@ public partial class MainViewModel : ViewModelBase
         }
         try
         {
-        using var http = new HttpClient();
-        prev20Matches = await _steamApiService.GetPrev20MatchesAsync(accId);
+            prev20Matches = await _steamApiService.GetPrev10MatchesAsync(accId);
+
+            if(prev20Matches != null && Heros != null)
+            {
+
+                var heroNames = Heros?.ToDictionary(h => h.HeroID, h => h.HeroNameFormatted) ?? new Dictionary<int, string>();
+
+                foreach(var match in prev20Matches)
+                {
+                    match.FormattedHeroName = heroNames.TryGetValue(match.Hero, out var name)
+                        ? name
+                        : $"{match.Hero}";
+                }
+            }
         }
         catch (Exception e)
         {
@@ -94,5 +111,16 @@ public partial class MainViewModel : ViewModelBase
     {
         ErrorMessage = message;
         ErrorOccurred?.Invoke(message);
+    }
+
+    private async Task LoadHeros()
+    {
+        try{
+            Heros = await _steamApiService.GetHeros();
+        }
+        catch(Exception e)
+        {
+            ReportError($"Couldnt load hero's: {e.Message}");
+        }
     }
 }

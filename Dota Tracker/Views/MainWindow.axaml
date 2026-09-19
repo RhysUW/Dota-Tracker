@@ -38,12 +38,10 @@
             </Grid>
 
             <TextBlock Grid.Column="0" Grid.Row="2" Margin="0,5" Foreground="{StaticResource PrimaryTextBrush}"> Previous Matches: </TextBlock>
-            <ItemsControl Grid.Column="0" Grid.Row="3" Background="#10111A" ItemsSource="{Binding prev20Matches}">
+            <ItemsControl Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Background="#10111A" ItemsSource="{Binding prev20Matches}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8">
-
-                        </StackPanel>
+                        <UniformGrid Columns="10" ColumnSpacing="10"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
@@ -52,9 +50,9 @@
                         <Border Background="#1E1F2B"
                                 CornerRadius="6"
                                 Padding="10"
-                                Width="110">
+                                Margin="8">
                                 <StackPanel Spacing="4">
-                                    <TextBlock Text="{Binding Hero, StringFormat='Hero {0}'}"
+                                    <TextBlock Text="{Binding FormattedHeroName}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"
                                                 FontWeight="Bold"></TextBlock>
 

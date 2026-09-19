@@ -9,10 +9,11 @@ using Dota_Tracker.Models;
 namespace Dota_Tracker.Services;
 
 /// <summary>
-/// Contains methods for querying the steam API
+/// Contains methods for querying the steam API and OpenDota API
 ///
 /// if you want to add new functions, here is the list of methods available in the
 /// steam API: https://steamapi.xpaw.me/IDOTA2Match_570
+/// OpenDota API: https://docs.opendota.com/#section/Introduction
 /// </summary>
 public class SteamApiService
 {
@@ -54,11 +55,18 @@ public class SteamApiService
         return result?.Result;
     }
 
-    public async Task<List<MatchInfo>?> GetPrev20MatchesAsync(ulong accId)
+    public async Task<List<MatchInfo>?> GetPrev10MatchesAsync(ulong accId)
     {
         ulong dotaId = SteamId64ToAccountID(accId);
-        string url = $"https://api.opendota.com/api/players/{dotaId}/matches?limit=20";
+        string url = $"https://api.opendota.com/api/players/{dotaId}/matches?limit=10";
         var result = await _http.GetFromJsonAsync<List<MatchInfo>>(url);
         return result;
+    }
+
+    public async Task<List<Heros>?> GetHeros()
+    {
+        string url = "https://api.opendota.com/api/heroes";
+        var results = await _http.GetFromJsonAsync<List<Heros>>(url);
+        return results;
     }
 }

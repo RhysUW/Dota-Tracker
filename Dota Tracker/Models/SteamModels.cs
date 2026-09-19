@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace Dota_Tracker.Models;
@@ -46,4 +47,12 @@ public record MatchInfo(
     public bool IsWin => (Slot < 128) == RadWin;
     public string DurationFormatted => TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss");
     public DateTime PlayedAt => DateTimeOffset.FromUnixTimeSeconds(StartTime).LocalDateTime;
+    public string? FormattedHeroName {get; set;}
 }
+
+public record Heros(
+    [property: JsonPropertyName("id")] int HeroID,
+    [property: JsonPropertyName("localized_name")] string HeroNameFormatted,
+    [property: JsonPropertyName("primary_attr")] string Attr,
+    [property: JsonPropertyName("attack_type")] string AttackType
+);
