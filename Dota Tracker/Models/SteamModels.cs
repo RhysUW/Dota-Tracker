@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -26,3 +27,23 @@ public record MatchSummary(
     [property: JsonPropertyName("match_id")] long MatchId,
     [property: JsonPropertyName("start_time")] long StartTime
 );
+
+public record MatchInfo(
+    [property: JsonPropertyName("match_id")] long MatchId,
+    [property:JsonPropertyName("player_slot")]  int Slot,
+    [property:JsonPropertyName("radiant_win")] bool RadWin, 
+    [property:JsonPropertyName("duration")] int Duration, 
+    [property:JsonPropertyName("game_mode")] int GameMode, 
+    [property:JsonPropertyName("lobby_type")] int LobbyType, 
+    [property:JsonPropertyName("hero_id")] int Hero, 
+    [property:JsonPropertyName("start_time")] long StartTime,
+    [property:JsonPropertyName("kills")] int Kills,
+    [property:JsonPropertyName("deaths")] int Deaths,
+    [property:JsonPropertyName("assists")] int Assists,
+    [property:JsonPropertyName("average_rank")] int? AverageRank
+)
+{
+    public bool IsWin => (Slot < 128) == RadWin;
+    public string DurationFormatted => TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss");
+    public DateTime PlayedAt => DateTimeOffset.FromUnixTimeSeconds(StartTime).LocalDateTime;
+}

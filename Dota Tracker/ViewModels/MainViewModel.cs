@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,10 +15,15 @@ public partial class MainViewModel : ViewModelBase
 {
     private readonly SteamApiService _steamApiService = new();
 
+    public Models.PlayerSummary CurrentPlayer {get;}
+
+    //steam accID used to get the dota accId
+    private ulong AccNum = 0;
+
+    public event Action<string>? ErrorOccurred; 
+    
     [ObservableProperty]
     public partial string? ErrorMessage { get; set;}
-
-    public Models.PlayerSummary CurrentPlayer {get;}
 
     [ObservableProperty]
     public partial string PlayerName { get; set;}
@@ -24,12 +31,19 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public partial Bitmap? PlayerAvatar { get; set; }
 
+    [ObservableProperty]
+    public partial List<MatchInfo>? prev20Matches { get; set;}
+
     public MainViewModel(PlayerSummary currentPlayer)
     {
         CurrentPlayer = currentPlayer;
         PlayerName = currentPlayer.PersonaName;
 
+        ulong.TryParse(currentPlayer.SteamId, out AccNum);
+
+        //loading data relevant to the logged in player
         _ = LoadAvatarAsync(currentPlayer.AvatarFull);
+        _ = LoadPrev20Matches(AccNum);
 
     }
 
@@ -54,7 +68,31 @@ public partial class MainViewModel : ViewModelBase
         }
         catch (Exception e)
         {
-            ErrorMessage = $"couldnt load the avatar: {e}";
+            ReportError($"couldnt load the avatar: {e}");
         }
+    }
+
+    private async Task LoadPrev20Matches(ulong accId)
+    {
+        if (accId == 0)
+        {
+            return;
+        }
+        try
+        {
+        using var http = new HttpClient();
+        prev20Matches = await _steamApiService.GetPrev20MatchesAsync(accId);
+        }
+        catch (Exception e)
+        {
+            ReportError($"couldn't load match history: {e.Message}");
+        }
+
+    }
+
+    private void ReportError(string message)
+    {
+        ErrorMessage = message;
+        ErrorOccurred?.Invoke(message);
     }
 }

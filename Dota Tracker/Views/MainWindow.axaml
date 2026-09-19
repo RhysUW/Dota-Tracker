@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Dota_Tracker.ViewModels"
+        xmlns:models="using:Dota_Tracker.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -37,9 +38,37 @@
             </Grid>
 
             <TextBlock Grid.Column="0" Grid.Row="2" Margin="0,5" Foreground="{StaticResource PrimaryTextBrush}"> Previous Matches: </TextBlock>
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Orientation="Horizontal" Spacing="8" Margin="0" Background="#10111A" Height="100">
-                <TextBlock Foreground="{StaticResource PrimaryTextBrush}">test</TextBlock>
-            </StackPanel>
+            <ItemsControl Grid.Column="0" Grid.Row="3" Background="#10111A" ItemsSource="{Binding prev20Matches}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="8">
+
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:MatchInfo">
+                        <Border Background="#1E1F2B"
+                                CornerRadius="6"
+                                Padding="10"
+                                Width="110">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="{Binding Hero, StringFormat='Hero {0}'}"
+                                                Foreground="{StaticResource PrimaryTextBrush}"
+                                                FontWeight="Bold"></TextBlock>
+
+                                    <TextBlock Text="{Binding IsWin}"
+                                                Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
+                                    
+                                    <TextBlock Text="{Binding DurationFormatted}"
+                                                Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
+                                </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
 
 
             <ListBox Grid.Column="1"></ListBox>

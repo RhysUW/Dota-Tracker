@@ -44,12 +44,21 @@ public class SteamApiService
     /// </summary>
     /// <param name="accID"></param>
     /// <returns></returns>
-    public async Task<MatchHistoryResult?> GetPrevious20Matches(uint accID)
+    public async Task<MatchHistoryResult?> GetPrevious20Matches(ulong accID)
     {
+        ulong dotaId = SteamId64ToAccountID(accID);
         string url = $"https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/v1/" +
-                     $"?key={_apiKey}&account_id={accID}&matches_requested=20";
+                     $"?key={_apiKey}&account_id={dotaId}&matches_requested=20";
 
         var result = await _http.GetFromJsonAsync<MatchHistoryResponse>(url);
         return result?.Result;
+    }
+
+    public async Task<List<MatchInfo>?> GetPrev20MatchesAsync(ulong accId)
+    {
+        ulong dotaId = SteamId64ToAccountID(accId);
+        string url = $"https://api.opendota.com/api/players/{dotaId}/matches?limit=20";
+        var result = await _http.GetFromJsonAsync<List<MatchInfo>>(url);
+        return result;
     }
 }
