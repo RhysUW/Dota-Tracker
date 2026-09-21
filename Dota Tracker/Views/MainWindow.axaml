@@ -52,13 +52,15 @@
                                 CornerRadius="6"
                                 Padding="10"
                                 Margin="8">
-                                <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto, Auto" Margin="4">
+                                <Grid ColumnDefinitions="Auto, 85" RowDefinitions="Auto, Auto, Auto" Margin="4">
                                     
                                     <Image Grid.Column="0" Grid.Row="0" Margin="0,0,0,5" Width="40" Height="40" asyncImageLoader:ImageLoader.Source="{Binding HeroIconUrl}"></Image>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="0" Margin="5,0" Text="{Binding FormattedHeroName}"
-                                                Foreground="{StaticResource PrimaryTextBrush}"
-                                                FontWeight="Bold"></TextBlock>
+                                    <Viewbox Grid.Column="1" Grid.Row="0" Margin="5,0" StretchDirection="DownOnly" MaxHeight="20">
+                                        <TextBlock Text="{Binding FormattedHeroName}"
+                                                    Foreground="{StaticResource PrimaryTextBrush}"
+                                                    FontWeight="Bold"></TextBlock>
+                                    </Viewbox>
 
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding IsWin}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
