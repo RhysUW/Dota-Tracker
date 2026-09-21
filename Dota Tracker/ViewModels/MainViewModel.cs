@@ -33,7 +33,7 @@ public partial class MainViewModel : ViewModelBase
     public partial Bitmap? PlayerAvatar { get; set; }
 
     [ObservableProperty]
-    public partial List<MatchInfo>? prev20Matches { get; set;}
+    public partial List<MatchInfo>? prev10Matches { get; set;}
 
     [ObservableProperty]
     public partial List<Heros>? Heros {get; set;}
@@ -91,9 +91,9 @@ public partial class MainViewModel : ViewModelBase
         }
         try
         {
-            prev20Matches = await _steamApiService.GetPrev10MatchesAsync(accId);
+            prev10Matches = await _steamApiService.GetPrev10MatchesAsync(accId);
 
-            if(prev20Matches != null && Heros != null)
+            if(prev10Matches != null && Heros != null)
             {
                 // match is the object bound in the view, uses this to append the formatted hero name, witch we get from another API call
                 var heroNames = Heros?.ToDictionary(h => h.HeroID, h => h.HeroNameFormatted) ?? new Dictionary<int, string>();
@@ -102,7 +102,7 @@ public partial class MainViewModel : ViewModelBase
                 var heroSprites = Heros?.ToDictionary(h => h.HeroID, h => h.HeroIcon) ?? new Dictionary<int, string?>();
 
 
-                foreach(var match in prev20Matches)
+                foreach(var match in prev10Matches)
                 {
                     match.FormattedHeroName = heroNames.TryGetValue(match.Hero, out var name)
                         ? name
@@ -111,6 +111,16 @@ public partial class MainViewModel : ViewModelBase
                     match.HeroIconUrl = heroSprites.TryGetValue(match.Hero, out var sprite)
                         ? sprite
                         : $"{match.Hero}";
+
+
+                    if (match.IsWin)
+                    {
+                        match.outcomeFormatted = "Win";
+                    }
+                    else
+                    {
+                        match.outcomeFormatted = "Loss";
+                    }
                 }
             }
         }

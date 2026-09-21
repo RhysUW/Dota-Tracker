@@ -47,6 +47,7 @@ public record MatchInfo(
 )
 {
     public bool IsWin => (Slot < 128) == RadWin;
+    public string? outcomeFormatted { get; set;}
     public string DurationFormatted => TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss");
     public DateTime PlayedAt => DateTimeOffset.FromUnixTimeSeconds(StartTime).LocalDateTime;
     public string? FormattedHeroName {get; set;}

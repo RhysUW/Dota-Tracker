@@ -39,7 +39,7 @@
             </Grid>
 
             <TextBlock Grid.Column="0" Grid.Row="2" Margin="0,5" Foreground="{StaticResource PrimaryTextBrush}"> Previous Matches: </TextBlock>
-            <ItemsControl Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Background="#10111A" ItemsSource="{Binding prev20Matches}">
+            <ItemsControl Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Background="#10111A" ItemsSource="{Binding prev10Matches}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="10" ColumnSpacing="10"/>
@@ -62,7 +62,7 @@
                                                     FontWeight="Bold"></TextBlock>
                                     </Viewbox>
 
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding IsWin}"
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding outcomeFormatted}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
                                     
                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding DurationFormatted}"
