@@ -52,6 +52,10 @@ public record MatchInfo(
     public DateTime PlayedAt => DateTimeOffset.FromUnixTimeSeconds(StartTime).LocalDateTime;
     public string? FormattedHeroName {get; set;}
     public string? HeroIconUrl { get; set; }
+
+    public string KillsFormatted => $"K: {Kills}";
+    public string AssistsFormatted => $"D: {Deaths}";
+    public string DeathsFormatted => $"A: {Assists}";
 }
 
 public record Heros(

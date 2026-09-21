@@ -52,7 +52,7 @@
                                 CornerRadius="6"
                                 Padding="10"
                                 Margin="8">
-                                <Grid ColumnDefinitions="Auto, 85" RowDefinitions="Auto, Auto, Auto" Margin="4">
+                                <Grid ColumnDefinitions="Auto, 85" RowDefinitions="Auto, Auto, Auto, auto" Margin="4">
                                     
                                     <Image Grid.Column="0" Grid.Row="0" Margin="0,0,0,5" Width="40" Height="40" asyncImageLoader:ImageLoader.Source="{Binding HeroIconUrl}"></Image>
 
@@ -66,6 +66,15 @@
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
                                     
                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding DurationFormatted}"
+                                                Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
+                                    
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding KillsFormatted}" HorizontalAlignment="Center"
+                                                Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
+
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding DeathsFormatted}" HorizontalAlignment="Center"
+                                                Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
+
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding AssistsFormatted}" HorizontalAlignment="Center"
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
                                 </Grid>
                                
