@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Text.Json.Serialization;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Dota_Tracker.Models;
 
@@ -48,11 +50,18 @@ public record MatchInfo(
     public string DurationFormatted => TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss");
     public DateTime PlayedAt => DateTimeOffset.FromUnixTimeSeconds(StartTime).LocalDateTime;
     public string? FormattedHeroName {get; set;}
+    public string? HeroIconUrl { get; set; }
 }
 
 public record Heros(
     [property: JsonPropertyName("id")] int HeroID,
+    [property: JsonPropertyName("name")] string name,
     [property: JsonPropertyName("localized_name")] string HeroNameFormatted,
     [property: JsonPropertyName("primary_attr")] string Attr,
-    [property: JsonPropertyName("attack_type")] string AttackType
-);
+    [property: JsonPropertyName("attack_type")] string AttackType,
+    [property: JsonPropertyName("icon")] string Icon
+)
+{
+    public string Shorthand => name.Replace("npc_dota_hero_", "");
+    public string? HeroIcon => $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/{Shorthand}.png";
+}

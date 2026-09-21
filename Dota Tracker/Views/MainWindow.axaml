@@ -1,4 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
+        xmlns:asyncImageLoader="using:AsyncImageLoader"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Dota_Tracker.ViewModels"
         xmlns:models="using:Dota_Tracker.Models"
@@ -51,17 +52,21 @@
                                 CornerRadius="6"
                                 Padding="10"
                                 Margin="8">
-                                <StackPanel Spacing="4">
-                                    <TextBlock Text="{Binding FormattedHeroName}"
+                                <Grid ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto, Auto" Margin="4">
+                                    
+                                    <Image Grid.Column="0" Grid.Row="0" Margin="0,0,0,5" Width="40" Height="40" asyncImageLoader:ImageLoader.Source="{Binding HeroIconUrl}"></Image>
+
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Margin="5,0" Text="{Binding FormattedHeroName}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"
                                                 FontWeight="Bold"></TextBlock>
 
-                                    <TextBlock Text="{Binding IsWin}"
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding IsWin}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
                                     
-                                    <TextBlock Text="{Binding DurationFormatted}"
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding DurationFormatted}"
                                                 Foreground="{StaticResource PrimaryTextBrush}"></TextBlock>
-                                </StackPanel>
+                                </Grid>
+                               
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

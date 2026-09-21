@@ -46,15 +46,21 @@ public partial class MainViewModel : ViewModelBase
         ulong.TryParse(currentPlayer.SteamId, out AccNum);
 
         //loading data relevant to the logged in player
-        _ = LoadHeros();
+        InitializeAzync();
         _ = LoadAvatarAsync(currentPlayer.AvatarFull);
-        _ = LoadPrev20Matches(AccNum);
+        _ = LoadPrev10Matches(AccNum);
 
     }
 
     // Parameterless constructor purely for the XAML designer preview
     public MainViewModel() : this(new PlayerSummary("0", "Design-time User", string.Empty))
     {
+    }
+
+    // other functions rely on the data from LoadHeros, so we ensure it initializes first
+    private async void InitializeAzync()
+    {
+        await LoadHeros();
     }
 
     private async Task LoadAvatarAsync(string avatarUrl)
@@ -77,7 +83,7 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    private async Task LoadPrev20Matches(ulong accId)
+    private async Task LoadPrev10Matches(ulong accId)
     {
         if (accId == 0)
         {
@@ -89,13 +95,21 @@ public partial class MainViewModel : ViewModelBase
 
             if(prev20Matches != null && Heros != null)
             {
-
+                // match is the object bound in the view, uses this to append the formatted hero name, witch we get from another API call
                 var heroNames = Heros?.ToDictionary(h => h.HeroID, h => h.HeroNameFormatted) ?? new Dictionary<int, string>();
+
+                // again need to append the heros icon to the match record which is bound in the view.
+                var heroSprites = Heros?.ToDictionary(h => h.HeroID, h => h.HeroIcon) ?? new Dictionary<int, string?>();
+
 
                 foreach(var match in prev20Matches)
                 {
                     match.FormattedHeroName = heroNames.TryGetValue(match.Hero, out var name)
                         ? name
+                        : $"{match.Hero}";
+
+                    match.HeroIconUrl = heroSprites.TryGetValue(match.Hero, out var sprite)
+                        ? sprite
                         : $"{match.Hero}";
                 }
             }
