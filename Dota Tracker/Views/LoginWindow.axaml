@@ -4,12 +4,19 @@
         x:Class="Dota_Tracker.Views.LoginWindow"
         x:DataType="vm:LoginViewModel"
         Title="Dota Tracker - Login"
+        Icon="/Assets/dota-tracker.ico"
         Width="360" Height="600"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         Background="#454761">
 
 <StackPanel Margin="24" Spacing="12" VerticalAlignment="Center">
+    
+    <Image Source="/Assets/dota-tracker-banner.png"
+           Width="280"
+           HorizontalAlignment="Center">
+    </Image>
+
     <TextBlock FontSize="16" 
                 HorizontalAlignment="Center" >
             Redirect to Steam Login</TextBlock>
